@@ -35,9 +35,9 @@ class AddToDo extends React.Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
         console.log(this.state.time)
         if (this.state.time === '--:--' || this.state.todo.length < 7) {
+            e.preventDefault();
             console.log("yes")
             this.setState({
                 error: true

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Calendar from 'react-calendar';
-import ToDo from './ToDo';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 
 import Tabs from '@material-ui/core/Tabs';
@@ -17,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ShowToDoDate from './ShowToDoDate';
 
 const showCalendar = () => {
   return <p>Text</p>
@@ -44,35 +44,38 @@ class ToDoApp extends Component {
   }
 
   showAll() {
-    return <div>
+    return <>
       <Paper>
-        <TableHead>
-          <TableRow>
-            <TableCell>ToDo</TableCell>
-            <TableCell align="right">When?</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right">Delete?</TableCell>
-          </TableRow>
-          <TableBody>
+        <Table>
+          <TableHead>
+              <TableRow>
+                <TableCell>ToDo</TableCell>
+                <TableCell align="right">When?</TableCell>
+                <TableCell align="right">Date</TableCell>
+                <TableCell align="right">Delete?</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
             {this.state.todos.map((todo, index) => {
-              return (
-                  <TableRow key={index}>
+                return (
+                <TableRow key={index}>
                     <TableCell component="th" scope="row">{todo.todo}</TableCell>
                     <TableCell align="right">{todo.date}</TableCell>
                     <TableCell align="right" >{todo.when}</TableCell>
                     <TableCell align="right">
                     <Fab onClick={() => this.deleteOnClick(todo)} aria-label="Delete" >
-                      <DeleteIcon />
+                        <DeleteIcon />
                     </Fab>
                     </TableCell>
-                  </TableRow>
-              )
+                </TableRow>
+                )
             })}
-          </TableBody>
-        </TableHead>
+            </TableBody>
+        </Table>
       </Paper>
-    </div>
+    </>
   }
+
 
   deleteOnClick(event) {
     var data = {
@@ -89,16 +92,7 @@ class ToDoApp extends Component {
   }
 
   showEntry() {
-    var onChange = (date) =>  {
-      this.setState({ date })
-      console.log(date)
-    }
-    return <div>
-      <Calendar 
-       
-      />
-    </div>
-    
+    return <ShowToDoDate />
   }
 
   showAddEntry() {

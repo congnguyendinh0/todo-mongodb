@@ -17,6 +17,8 @@ router.get('/getToDos', function(req, res, next) {
     })
 });
 
+
+
 router.post('/deleteToDo', function(req, res, next) {
     console.log('Clicked on element: ' + req.body);
     ToDo.findByIdAndRemove(req.body._id, function (err) {
@@ -33,6 +35,14 @@ router.post('/addElement', function(req, res, next) {
         if (err) throw console.error(err);
         console.log(todo + " was added");
     })
+});
+
+router.post('/showDate', function (req, res, next) {
+    console.log(req.body.date);
+    ToDo.find({ date: req.body.date })
+        .then(function(toDos) {
+            res.send(JSON.stringify(toDos));
+        })
 });
 
 
