@@ -27,31 +27,45 @@ class ToDoApp extends Component {
     this.state = {
       date: new Date(),
       todos: [],
-      value: 0
+      value: 0,
+      nodata: true
     }
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
     this.showAll = this.showAll.bind(this);
   }
-  
-  componentDidMount() {
+  fetchData() {
     fetch('/api/')
       .then(response  => response.json())
       .then(data => {
-        this.setState({
-          todos: data
-        })
+        if (data.length > 0) {
+          this.setState({
+            todos: data,
+            nodata: false
+          });
+        } else {
+          this.setState({
+            nodata: true
+          })
+        }
       });
   }
+  componentDidMount() {
+    this.fetchData();
+  }
 
-  showAll() {
-    return <>
-      <Paper>
+  componentDidUpdate() {
+    this.fetchData();
+  }
+
+  showTable() {
+    return (
         <Table>
           <TableHead>
               <TableRow>
                 <TableCell>ToDo</TableCell>
-                <TableCell align="right">When?</TableCell>
                 <TableCell align="right">Date</TableCell>
+                <TableCell align="right">When?</TableCell>
                 <TableCell align="right">Delete?</TableCell>
               </TableRow>
             </TableHead>
@@ -72,7 +86,17 @@ class ToDoApp extends Component {
             })}
             </TableBody>
         </Table>
+    )
+  }
+
+  showAll() {
+    const contentTable = this.state.nodata ? <h3>There are no tasks for you and your team yet!<br/> Go ahead and start to add something!</h3> : this.showTable();
+    return <>
+    <div className="section">
+      <Paper>
+        {contentTable}
       </Paper>
+    </div>
     </>
   }
 

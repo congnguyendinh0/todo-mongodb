@@ -62,9 +62,7 @@ class ShowToDoDate extends Component {
                 this.setState({
                     todos: reqData
             })
-        });
-
-        
+        }); 
     }
 
     showAll() {
@@ -101,10 +99,18 @@ class ShowToDoDate extends Component {
     }
     
     render() {
-        var showData = this.state.retrievedData ? this.showAll() : '';
+        var showData = this.state.retrievedData ? this.showAll() : 
+            <Paper className="paper">
+                <h3>There are no tasks for you and your team yet!
+                    <br/> Go ahead and start to add something!
+                    <br/> Or choose another date!
+                </h3>
+            </Paper>;
+            
         return (
-            <div>
-                <Calendar 
+            <div className="section">
+                <Calendar
+                    className="calendar" 
                     onChange={this.handleChange}
                     value={this.state.date}
                 />

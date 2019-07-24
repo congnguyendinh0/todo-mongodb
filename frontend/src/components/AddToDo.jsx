@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import Calendar from 'react-calendar';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 
 class AddToDo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             date: new Date(),
-            time: '--:--',
+            time: '07:30',
             todo: '',
             error: false
         }
@@ -24,6 +27,7 @@ class AddToDo extends React.Component {
     }
 
     getValueOfWhen(e) {
+        console.log(e.target.value);
         this.setState({
             time: e.target.value
         })
@@ -36,9 +40,8 @@ class AddToDo extends React.Component {
 
     handleSubmit(e) {
         console.log(this.state.time)
-        if (this.state.time === '--:--' || this.state.todo.length < 7) {
+        if (this.state.time === '--:--' || this.state.todo.length < 7 || this.state.time === '') {
             e.preventDefault();
-            console.log("yes")
             this.setState({
                 error: true
             })
@@ -67,21 +70,23 @@ class AddToDo extends React.Component {
     }
 
     render(){
-        var error = this.state.error ? <span>Insert valid time and more than 7 characters for ToDo input field!</span> : '';
+        var error = this.state.error ? <span className="error" >Insert valid time and more than 7 characters for the textfield!</span> : '';
         return (
-            <div>
+            <div className="section">
                 <Calendar
                     onChange={this.onChange}
                     value={this.state.date}
+                    className="calendar"
                 />
-                <form onSubmit={this.handleSubmit}>
-                    <label>When</label>
-                    <input type="time" onChange={this.getValueOfWhen}></input>
-                    <label>What to do?</label>
-                    <input type="text" onChange={this.getValueOfToDo}></input>
-                    <button type="submit">Submit</button>
+                <Paper className="to-do-form" rounded>
+                <form>
+                    <TextField className="form-textfield" type="time" onChange={this.getValueOfWhen} label="When?" defaultValue="07:30"  InputLabelProps={{ shrink: true }} validate></TextField>
+                    <TextField className="form-textfield" placeholder="e.g. Buy Bubble Tea" label="What should be done?" onChange={this.getValueOfToDo} InputLabelProps={{ shrink: true }} validate></TextField>
+                    <Button className="form-button" variant="contained" onClick={this.handleSubmit} color="primary">Submit</Button>
                     {error}
                 </form>
+                </Paper>
+                
             </div>
         );
     }

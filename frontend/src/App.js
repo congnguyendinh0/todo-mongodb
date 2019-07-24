@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './static/css/styles.scss';
 import ToDoApp from './components/ToDoApp';
 import AddToDo from './components/AddToDo';
 import AppComponent from './components/AppComponent';
